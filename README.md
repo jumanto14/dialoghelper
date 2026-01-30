@@ -1,5 +1,7 @@
 # DialogHelper
 
+[![](https://jitpack.io/v/jumanto14/dialoghelper.svg)](https://jitpack.io/#jumanto14/dialoghelper)
+
 Simple and lightweight Android dialog helper library written in Kotlin.  
 Designed for clean, reusable, and beginner‑friendly dialog handling without boilerplate.
 
