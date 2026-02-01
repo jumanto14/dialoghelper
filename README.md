@@ -2,93 +2,116 @@
 
 [![](https://jitpack.io/v/jumanto14/dialoghelper.svg)](https://jitpack.io/#jumanto14/dialoghelper)
 
-Simple and lightweight Android dialog helper library written in Kotlin.  
-Designed for clean, reusable, and beginner‑friendly dialog handling without boilerplate.
+Simple, lightweight, and modern Android dialog helper library written in Kotlin.  
+Designed to work seamlessly with **Jetpack Compose**, **Material3**, and **XML-based Android projects**.
 
 ---
 
 ## ✨ Features
 
-- Alert dialog
-- Confirm dialog (Yes / No)
-- Loading dialog
-- DialogStyle (INFO, SUCCESS, WARNING, ERROR)
-- Optional & custom title
-- No Material dependency
+- ✅ Ready for Jetpack Compose & XML projects
+- 🎨 Material Design dialog (Material Components)
+- 🧩 Predefined dialog styles (Info, Success, Warning, Error)
+- ⚙️ Global dialog configuration
+- 🪶 Lightweight & easy to use
+- 🚫 No AppCompat theme crash
 
 ---
 
 ## 📦 Installation
 
-### Option 1: Local Module
-Copy the `dialoghelper` module into your project and include it in `settings.gradle`.
+Add the dependency to your module `build.gradle`:
 
-```kotlin
-include(":dialoghelper")
-```
-
-### Option 2: JitPack (recommended)
 ```gradle
-implementation("com.github.jumanto14:dialoghelper:v1.0.0")
+dependencies {
+    implementation("com.github.jumanto14:dialoghelper:v1.0.1")
+}
 ```
+
+### Required dependencies
+
+DialogHelper uses **Material Components**:
+
+```gradle
+implementation("com.google.android.material:material:1.11.0")
+implementation("androidx.appcompat:appcompat:1.7.1")
+```
+
+---
+
+## 🎨 Theme Requirement
+
+Your application **must use a Material-based theme**, such as:
+
+- `Theme.Material3.DayNight`
+- `Theme.Material3.Light`
+- `Theme.MaterialComponents.DayNight`
+- `Theme.MaterialComponents.Light`
+
+❗ DialogHelper will **NOT work** with:
+- `Theme.Holo`
+- `Theme.DeviceDefault`
+- Non-Material themes
 
 ---
 
 ## 🚀 Usage
 
-### Alert Dialog (Default)
+### Show Alert Dialog
 
 ```kotlin
 DialogHelper.showAlert(
     context = this,
-    message = "Data berhasil disimpan"
-)
-```
-
-### Alert Dialog with Style
-
-```kotlin
-DialogHelper.showAlert(
-    context = this,
-    message = "Pembayaran berhasil",
+    message = "Data berhasil disimpan",
     style = DialogStyle.SUCCESS
 )
 ```
 
-### Custom Title
+### Show Confirm Dialog
 
 ```kotlin
-DialogHelper.showAlert(
-    this,
-    message = "Saldo tidak mencukupi",
-    title = "Peringatan",
-    style = DialogStyle.WARNING
-)
-```
-
-### Without Title
-
-```kotlin
-DialogHelper.showAlert(
-    this,
-    message = "Session expired",
-    title = ""
+DialogHelper.showConfirm(
+    context = this,
+    message = "Hapus data ini?",
+    style = DialogStyle.WARNING,
+    onConfirm = {
+        // do delete
+    },
+    onCancel = {
+        // cancelled
+    }
 )
 ```
 
 ---
 
-## ❓ Confirm Dialog
+## 🧩 Dialog Styles
+
+Available styles:
 
 ```kotlin
-DialogHelper.showConfirm(
-    context = this,
-    message = "Yakin ingin logout?",
-    style = DialogStyle.WARNING,
-    onConfirm = {
-        logout()
-    }
-)
+DialogStyle.INFO
+DialogStyle.SUCCESS
+DialogStyle.WARNING
+DialogStyle.ERROR
+```
+
+---
+
+## ⚙️ Global Configuration
+
+You can customize dialog behavior globally:
+
+```kotlin
+DialogConfig.cancelable = false
+
+DialogConfig.infoTitle = "Info"
+DialogConfig.successTitle = "Berhasil"
+DialogConfig.warningTitle = "Peringatan"
+DialogConfig.errorTitle = "Kesalahan"
+
+DialogConfig.positiveText = "OK"
+DialogConfig.negativeText = "Batal"
 ```
 
 ---
@@ -96,34 +119,36 @@ DialogHelper.showConfirm(
 ## ⏳ Loading Dialog
 
 ```kotlin
-val loading = LoadingDialog(this)
-loading.show()
+val loadingDialog = LoadingDialog(this)
 
-// do async work
+loadingDialog.show()
 
-loading.dismiss()
+// do something...
+
+loadingDialog.dismiss()
 ```
 
 ---
 
-## 🧠 Best Practices
+## 🧪 Compatibility
 
-- Reuse `LoadingDialog` instance
-- Use `DialogStyle` for UX consistency
-- Avoid heavy UI customization in helper layer
-- Ideal for BaseActivity / BaseFragment
+- Jetpack Compose
+- XML-based Android Views
+- AppCompatActivity
+- ComponentActivity
+- Material3 & Material Components themes
 
 ---
 
-## 📁 Structure
+## 🆕 Changelog
 
-```
-dialoghelper/
-├── DialogHelper.kt
-├── DialogStyle.kt
-├── DialogConfig.kt
-└── LoadingDialog.kt
-```
+### v1.0.1
+- Fixed crash on Compose / Material3 / non-AppCompat themes
+- Replaced AppCompat AlertDialog with MaterialAlertDialogBuilder
+- Compatible with both Compose and XML projects
+
+### v1.0.0
+- Initial release
 
 ---
 
