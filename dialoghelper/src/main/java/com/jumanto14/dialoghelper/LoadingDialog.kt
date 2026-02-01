@@ -2,7 +2,6 @@ package com.jumanto14.dialoghelper
 
 import android.app.Dialog
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.Window
 import android.widget.ProgressBar
 

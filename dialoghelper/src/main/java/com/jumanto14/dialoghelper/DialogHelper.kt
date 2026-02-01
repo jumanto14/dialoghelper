@@ -1,7 +1,7 @@
 package com.jumanto14.dialoghelper
 
 import android.content.Context
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 object DialogHelper {
 
@@ -13,7 +13,7 @@ object DialogHelper {
         positiveText: String = DialogConfig.positiveText,
         onPositive: (() -> Unit)? = null
     ) {
-        val builder = AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context)
             .setMessage(message)
             .setCancelable(DialogConfig.cancelable)
             .setPositiveButton(positiveText) { dialog, _ ->
@@ -22,7 +22,6 @@ object DialogHelper {
             }
 
         applyStyle(builder, style, title)
-
         builder.show()
     }
 
@@ -36,7 +35,7 @@ object DialogHelper {
         onConfirm: () -> Unit,
         onCancel: (() -> Unit)? = null
     ) {
-        val builder = AlertDialog.Builder(context)
+        val builder = MaterialAlertDialogBuilder(context)
             .setMessage(message)
             .setCancelable(DialogConfig.cancelable)
             .setPositiveButton(positiveText) { dialog, _ ->
@@ -49,23 +48,23 @@ object DialogHelper {
             }
 
         applyStyle(builder, style, title)
-
         builder.show()
     }
 
+    // ================================
+    // Internal Style Applier
+    // ================================
     private fun applyStyle(
-        builder: AlertDialog.Builder,
+        builder: MaterialAlertDialogBuilder,
         style: DialogStyle,
         title: String?
     ) {
         when {
             title == null -> builder.setTitle(style.defaultTitle())
             title.isNotEmpty() -> builder.setTitle(title)
-            else -> { /* empty → no title */ }
+            else -> { /* empty title → no title */ }
         }
 
         style.icon?.let { builder.setIcon(it) }
     }
 }
-
-
