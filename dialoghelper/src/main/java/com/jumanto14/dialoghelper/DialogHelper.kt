@@ -1,9 +1,23 @@
 package com.jumanto14.dialoghelper
 
 import android.content.Context
+import androidx.appcompat.view.ContextThemeWrapper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 object DialogHelper {
+
+    /**
+     * Wrap context with Material AppCompat theme
+     * to avoid crash on:
+     * - Compose Material3
+     * - Non-AppCompat Activities
+     */
+    private fun themedContext(context: Context): Context {
+        return ContextThemeWrapper(
+            context,
+            com.google.android.material.R.style.Theme_Material3_DayNight
+        )
+    }
 
     fun showAlert(
         context: Context,
@@ -13,7 +27,7 @@ object DialogHelper {
         positiveText: String = DialogConfig.positiveText,
         onPositive: (() -> Unit)? = null
     ) {
-        val builder = MaterialAlertDialogBuilder(context)
+        val builder = MaterialAlertDialogBuilder(themedContext(context))
             .setMessage(message)
             .setCancelable(DialogConfig.cancelable)
             .setPositiveButton(positiveText) { dialog, _ ->
@@ -30,12 +44,12 @@ object DialogHelper {
         message: String,
         style: DialogStyle = DialogStyle.WARNING,
         title: String? = null,
-        positiveText: String = "Yes",
+        positiveText: String = DialogConfig.positiveText,
         negativeText: String = DialogConfig.negativeText,
         onConfirm: () -> Unit,
         onCancel: (() -> Unit)? = null
     ) {
-        val builder = MaterialAlertDialogBuilder(context)
+        val builder = MaterialAlertDialogBuilder(themedContext(context))
             .setMessage(message)
             .setCancelable(DialogConfig.cancelable)
             .setPositiveButton(positiveText) { dialog, _ ->
@@ -62,7 +76,6 @@ object DialogHelper {
         when {
             title == null -> builder.setTitle(style.defaultTitle())
             title.isNotEmpty() -> builder.setTitle(title)
-            else -> { /* empty title → no title */ }
         }
 
         style.icon?.let { builder.setIcon(it) }

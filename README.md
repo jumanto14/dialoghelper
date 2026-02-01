@@ -2,19 +2,19 @@
 
 [![](https://jitpack.io/v/jumanto14/dialoghelper.svg)](https://jitpack.io/#jumanto14/dialoghelper)
 
-Simple, lightweight, and modern Android dialog helper library written in Kotlin.  
-Designed to work seamlessly with **Jetpack Compose**, **Material3**, and **XML-based Android projects**.
+Simple, lightweight, and **Compose-safe** dialog helper for Android.  
+Designed to work seamlessly with **Jetpack Compose Material3**, **XML Views**, and **custom themes**.
 
 ---
 
 ## ✨ Features
 
-- ✅ Ready for Jetpack Compose & XML projects
-- 🎨 Material Design dialog (Material Components)
-- 🧩 Predefined dialog styles (Info, Success, Warning, Error)
-- ⚙️ Global dialog configuration
-- 🪶 Lightweight & easy to use
-- 🚫 No AppCompat theme crash
+- Alert & Confirm dialogs
+- Multiple dialog styles (Info, Success, Warning, Error)
+- Safe for **Compose Material3**
+- No AppCompat requirement for application theme
+- Zero setup configuration
+- Lightweight & beginner-friendly
 
 ---
 
@@ -24,7 +24,7 @@ Add the dependency to your module `build.gradle`:
 
 ```gradle
 dependencies {
-    implementation("com.github.jumanto14:dialoghelper:v1.0.1")
+    implementation("com.github.jumanto14:dialoghelper:v1.0.2")
 }
 ```
 
@@ -33,85 +33,62 @@ dependencies {
 DialogHelper uses **Material Components**:
 
 ```gradle
-implementation("com.google.android.material:material:1.11.0")
+implementation("com.google.android.material:material:1.12.0")
 implementation("androidx.appcompat:appcompat:1.7.1")
 ```
 
 ---
 
-## 🎨 Theme Requirement
-
-Your application **must use a Material-based theme**, such as:
-
-- `Theme.Material3.DayNight`
-- `Theme.Material3.Light`
-- `Theme.MaterialComponents.DayNight`
-- `Theme.MaterialComponents.Light`
-
-❗ DialogHelper will **NOT work** with:
-- `Theme.Holo`
-- `Theme.DeviceDefault`
-- Non-Material themes
-
----
-
 ## 🚀 Usage
 
-### Show Alert Dialog
+### Alert Dialog
 
 ```kotlin
 DialogHelper.showAlert(
-    context = this,
+    context = context,
     message = "Data berhasil disimpan",
     style = DialogStyle.SUCCESS
 )
 ```
 
-### Show Confirm Dialog
+### Confirm Dialog
 
 ```kotlin
 DialogHelper.showConfirm(
-    context = this,
-    message = "Hapus data ini?",
-    style = DialogStyle.WARNING,
+    context = context,
+    message = "Yakin ingin menghapus?",
     onConfirm = {
-        // do delete
-    },
-    onCancel = {
-        // cancelled
+        // confirmed
     }
 )
 ```
 
 ---
 
-## 🧩 Dialog Styles
+## 🎨 Dialog Styles
 
-Available styles:
-
-```kotlin
-DialogStyle.INFO
-DialogStyle.SUCCESS
-DialogStyle.WARNING
-DialogStyle.ERROR
-```
+* `DialogStyle.INFO`
+* `DialogStyle.SUCCESS`
+* `DialogStyle.WARNING`
+* `DialogStyle.ERROR`
 
 ---
 
-## ⚙️ Global Configuration
+## 🧩 Compose Support
 
-You can customize dialog behavior globally:
+Fully compatible with **Jetpack Compose Material3**:
 
 ```kotlin
-DialogConfig.cancelable = false
+val context = LocalContext.current
 
-DialogConfig.infoTitle = "Info"
-DialogConfig.successTitle = "Berhasil"
-DialogConfig.warningTitle = "Peringatan"
-DialogConfig.errorTitle = "Kesalahan"
-
-DialogConfig.positiveText = "OK"
-DialogConfig.negativeText = "Batal"
+Button(onClick = {
+    DialogHelper.showAlert(
+        context,
+        "Hello from Compose!"
+    )
+}) {
+    Text("Show Dialog")
+}
 ```
 
 ---
@@ -140,7 +117,24 @@ loadingDialog.dismiss()
 
 ---
 
+## 🛡️ Theme Safety
+
+DialogHelper automatically wraps context with a safe Material AppCompat theme, so:
+
+* No crash on non-AppCompat activities
+* No forced theme changes
+* Safe for libraries & SDK usage
+
+
 ## 🆕 Changelog
+
+### v1.0.2
+
+* Fix crash on Compose Material3
+* Safe for non-AppCompat themes
+* Internal theme wrapping
+
+---
 
 ### v1.0.1
 - Fixed crash on Compose / Material3 / non-AppCompat themes
